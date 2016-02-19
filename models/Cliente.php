@@ -7,14 +7,17 @@ class Cliente extends Conectar{
 	private $tel;
 	private $direc;
 	private $email;
-	public function __construct($cedula,$nombre,$apellido,$tel,$direc,$email){
+	public function __construct(){
+		
+	}
+	public function Set_cliente($cedula,$nombre,$apellido,$tel,$direc,$email){
 		$this->$cedula = $cedula;
 		$this->$apellido = $apellido;
 		$this->$tel = $tel;
 		$this->$direc = $direc;
-		$this->$email = $email;
-
+		$this->$email = $email;	
 	}
+
 	public function get_cedula(){
 		return $this->$cedula;
 	}
@@ -31,6 +34,18 @@ class Cliente extends Conectar{
 		return $this->$email;
 	}
 
+	public function Add_cliente($cedula,$nombre,$apellido,$tel,$cel,$direc,$email){
+		$data = Array('Usua_id'=>$cedula,
+					  '	Usua_nomb'=>$nombre,
+					  'Usua_apelli'=>$apellido,
+					  'Usua_tel'=>$tel,
+					  'Usua_cel'=>$cel,
+					  'Usua_direc'=>$direc,
+					  'email_user'=>$email);
+		$data = parent::inserta("clientes_kit_motos",$data);
+		return $data;
+	}
+
 	public function get_factura($id){
 		$sql = 'SELECT Id_factura
 				FROM  Solicitud_facturacion sf 
@@ -38,6 +53,11 @@ class Cliente extends Conectar{
 				WHERE Usua_id = '.$id;
 		$datos = parent::consultas($sql);
 		return $datos;
+	}
+
+	public function Verificar($user,$pass){
+	  $data = parent::consulta_usuario($user,$pass);	
+	  return $data;
 	}
 }
 

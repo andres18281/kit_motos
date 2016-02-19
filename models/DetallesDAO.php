@@ -17,10 +17,9 @@ class DetallesDAO{
     }
     public function calculo_total(){
         foreach($this->arreglo as $array){
-                $this->costo_total +=  $array['cantidad'] * $array['costo'];
+                $this->costo_total +=  1 * $array['costo'];
         }
         return $this->costo_total;
     }
-
 }
 ?>

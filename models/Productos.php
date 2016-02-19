@@ -1,7 +1,7 @@
 
 <?php
   include_once("../controllers/conectar.php");
-  class Agregar extends Conectar{
+  class Productos extends Conectar{
 
   	public function __construct(){
   		parent::__construct('root','123456');
@@ -104,6 +104,22 @@
   		$datos = parent::consultas($sql);
   		return $datos;
   	}
+
+    public function Buscar_producto($producto){
+      $sql = 'SELECT Produc_id, Descri_nomb, Marca_nomb, Referenc_nomb,Precio
+              FROM Producto_kit Pro_kit
+              INNER JOIN Produc_descripcion_ Pd ON Pd.Descri_id = Pro_kit.Produc_descr_id
+              INNER JOIN Produc_Marca PM ON PM.Marca_id = Pro_kit.Produc_marc_id
+              INNER JOIN Produc_Referencia PR ON PR.Referen_id = Pro_kit.Produc_referen_id
+              WHERE Pd.Descri_nomb LIKE  "%'.$producto.'%"
+              OR PR.Referenc_nomb LIKE  "%'.$producto.'%"
+              OR PM.Marca_nomb LIKE  "%'.$producto.'%"
+              OR Pro_kit.Produc_id LIKE  "%'.$producto.'%"';
+      $data = parent::consultas($sql);
+      return $data;
+    }
+  
+
 
   }
 

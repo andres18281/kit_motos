@@ -31,12 +31,13 @@
         }
 
 
-        public function Insertar_producto($cod,$descrip,$marca,$refe,$linea){
+        public function Insertar_producto($cod,$descrip,$marca,$refe,$linea,$precio){
           $array = array("mensaje"=>"Hay un problema interno que debe solucionarse",
                            "error"=>"hubo un error al inicio");
             if($this->connect()){
-               $inserta= 'INSERT INTO Producto_kit VALUES ('.$cod.','.$descrip.','.$marca.','.$refe.','.$linea.')';
-               echo $inserta;
+               $inserta= 'INSERT INTO Producto_kit VALUES ("'.$cod.'",'.$descrip.','.$marca.','.$refe.',null,'.$precio.')';
+               echo $inserta.'<br>';
+              // echo $inserta.'<br>';
                 $insercion = $this->mysqli->query($inserta);
                 if($insercion){
                     $array = array("exito"=>"Insercion con exito",
@@ -91,6 +92,25 @@
             }
             return $array;
         }
+        public function Insertar_referencia($nomb){
+           $array = array("mensaje"=>"Hay un problema interno que debe solucionarse",
+                           "error"=>"hubo un error al inicio");
+            if($this->connect()){
+               $inserta='INSERT INTO produc_referencia VALUES (null,"'.$nomb.'")';
+                $insercion = $this->mysqli->query($inserta);
+                if($insercion){
+                    $array = array("exito"=>"Insercion con exito",
+                                   "last_cod_id"=>$this->mysqli->insert_id,
+                                   "mensaje"=>"Si inserto");
+                }else{
+                    $array = array("error"=>$this->mysqli->errno);
+                }
+            }else{
+             $array = array("mensaje"=>"No se pudo conectar a la base de datos, intentelo de nuevo",
+                            "error"=>"hubo un error de conexion");
+            }
+            return $array;
+         }
 
         public function Insertar_marca($marca){
            $array = array("mensaje"=>"Hay un problema interno que debe solucionarse",
@@ -135,11 +155,12 @@
         public function inserta($tablas,$params = array()){
             $array = array("mensaje"=>"Hay un problema interno que debe solucionarse",
                            "error"=>"hubo un error al inicio");
+
             if($this->connect()){
              if(isset($tablas)){
                 //  $inserta = 'INSERT INTO '.$tablas.' ('.implode("','",array_keys($parametros)).'") VALUES ("'.implode("','",$parametros).'")"';
                $inserta='INSERT INTO `'.$tablas.'` (`'.implode('`, `',array_keys($params)).'`) VALUES ("' . implode('", "', $params) . '")';
-                echo $inserta;
+               echo $inserta;
                 $insercion = $this->mysqli->query($inserta);
                 if($insercion){
                     $array = array("exito"=>"Insercion con exito",
@@ -158,14 +179,14 @@
 
 
         public function consultas($sql){
+
            if($this->connect()){
               if($result = $this->mysqli->query($sql)){
                     if($result->num_rows == 1){
-                        $row = $result->fetch_array(MYSQL_NUM);
-                        $this->close_conection();
+                        $row = $result->fetch_array(MYSQLI_ASSOC);
                         return $row;    
                     }elseif($result->num_rows > 1){
-                      while($row = $result->fetch_array(MYSQL_NUM)){
+                      while($row = $result->fetch_array(MYSQLI_ASSOC)){
                        // $array = Array("codigo"=>$row);
                         $array_[] = $row;
                       }
@@ -179,6 +200,7 @@
                     }
            }
         }
+        $this->close_conection();
       }
 
       public function update_query($query){
@@ -200,6 +222,25 @@
         }            
     }
 
+    public function consulta_usuario($user,$pass){
+      if($this->connect()){
+        $sql = "SELECT user.Id_users,cli.email_user,user.tipo_rol
+                FROM users_count user
+                INNER JOIN clientes_kit_motos cli ON cli.Usua_id = user.Id_users 
+                WHERE user.Id_users = ".$user.' 
+                OR cli.email_user = "'.$user.'" 
+                AND user.passwrd_ = "'.$pass.'"';
+        if($result = $this->mysqli->query($sql)){
+          if($result->num_rows == 1){
+            $row = $result->fetch_array(MYSQLI_NUM);
+            return $row;    
+            $this->close_conection();
+          }else{
+           return null;
+        }
+      }
+    }
+   }
 
 
 
