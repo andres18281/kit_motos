@@ -1,14 +1,10 @@
-<<<<<<< HEAD
 <?php 
 session_start();
 ?>
-=======
->>>>>>> e7b49836166a8a2b3b0fd3b018afdae047c15f80
 <!DOCTYPE html>
 <html>
 <head>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<<<<<<< HEAD
   <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css">
 
 	<title></title>
@@ -140,27 +136,11 @@ session_start();
 </head>
 <body>
   <div class="container-fluid">
-
-
-=======
-
-    <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css">
-	
-
-	<title></title>
-</head>
-<body>
- <div class="container-fluid">
-  <div class="row">
-	<div class="col-md-12">
->>>>>>> e7b49836166a8a2b3b0fd3b018afdae047c15f80
 	  <nav class="navbar navbar-default" role="navigation">
 		<div class="navbar-header">				 
 		  
 		</div>		
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-<<<<<<< HEAD
-		  
 			<?php
         if(isset($_SESSION['perfil']) and $_SESSION['perfil'] == "asdqweasd5654184"){ //cliente ?>
           <ul class="nav navbar-nav navbar-right">
@@ -294,119 +274,18 @@ session_start();
 
 <script src ="https://code.jquery.com/jquery-2.2.0.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-=======
-		  <ul class="nav navbar-nav navbar-right">
-			
-			<li class="dropdown">
-			  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mi Perfil<strong class="caret"></strong></a>
-				<ul class="dropdown-menu">
-			     <li>
-					<a href="#">Action</a>
-				 </li>
-				 <li>
-					<a href="#">Another action</a>
-				 </li>
-				 <li>
-					<a href="#">Something else here</a>
-				 </li>
-				 <li class="divider">
-				 </li>
-				 <li>
-				    <a href="#">Separated link</a>
-				 </li>
-				</ul>
-			</li>
-		  </ul>
-		</div><!--colaso-->		
-	   </nav>
-	 </div><!--col-md-12-->
-   </div><!--row-->
-   <div class="row">
-    <div class="col-md-1">
-    </div>
-    <div class="col-md-10">
-      <div class="row" style="margin-bottom:20px;margin-top:50px;">
-             <div class="col-md-2">
-             </div>
-			 <div class="col-md-6">
-			   <input type="text" class=" input-lg form-control" id="inp_searh" placeholder="Buscar">
-			 </div>
-			 <div class="col-md-2">
-			   <button class="btn btn-default btn-lg" id="btn_search">
-				<span class="glyphicon glyphicon-search"></span>
-			   </button>
-			 </div>
-  		    </div>
-      <div class="panel panel-default">
-  		<div class="panel-heading">PRODUCTOS</div>
-  		 <div class="panel-default" style="margin-top:20px;">
-  		   <div class="col-md-12">
-			<div class="col-md-4">
-			 <label> NOMBRE DE MERCANCIA</label>
-			</div>
-			<div class="col-md-6">
-			 <input type="text" class="form-control">
-			</div>
-			<div class="col-md-2">
-    		  <a href="#" class="thumbnail">
-      			<img src="..." alt="...">
-    		  </a>
-  			</div>
-		   </div>
-  		 </div>
-  		 <div class="panel-body">
-  		  <table class="table">
-  		   <thead>
-  		     <tr>
- 			   <td><b>Codigo</b></td>
- 			   <td><b>Descripcion</b></td>
- 			   <td><b>Marca</b></td>
- 			   <td><b>Referencia</b></td>
- 			   <td><b>Costo</b></td>
- 			   <td></td>
-  		     </tr>
-           </thead>
-           <tbody id="tbody_">
-			 
-           </tbody>
-          </table>
-  		 </div>
-		</div>
-   	  </div>
-   	</div><!--col-md-10-->
-    <div class="col-md-1">
-    </div>
-   </div><!--row-->
-   <div class="col-md-12">
-
-   </div>
- </div><!--container-fluid-->
-</body>
-</html>
-<script src ="jquery-2.1.4.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
->>>>>>> e7b49836166a8a2b3b0fd3b018afdae047c15f80
 <script>
  $(function(){
  	$("#inp_searh").keypress(function(e){
  	  if(event.which == 13){
-<<<<<<< HEAD
  	  	$("#tbody_").html("");
  	  	var valor = $(this).val();
  	  	$.ajax({
  	  		datetype:"json",
-=======
- 	  	event.preventDefault();
- 	  	var valor = $(this).val();
- 	  	$.ajax({
- 	  		datetype:"html",
->>>>>>> e7b49836166a8a2b3b0fd3b018afdae047c15f80
  	  		type:"post",
  	  		data:{"consult_product":valor},
  	  		url:"controllers/mostrar_productos.php",
  	  		success:function(data){
-<<<<<<< HEAD
  	  		 var data = $.parseJSON(data);
  	  		  $.each(data,function(key,value){
  	  		   var tbo = '<tr>\
@@ -419,15 +298,11 @@ session_start();
  	  		 		      </tr>';
  	  		    $(tbo).appendTo($("#tbody_"));
  	  		  });  	
-=======
- 	  		    $("#tbody_").html(data);
->>>>>>> e7b49836166a8a2b3b0fd3b018afdae047c15f80
  	  		}
  	  	});
  	  }
  	});
 
-<<<<<<< HEAD
    $("#lblNumberItems").click(function(){
      $("#pnl_listado").toggle( "slow");
    });
@@ -437,16 +312,10 @@ session_start();
  		$("#tbody_").html("");
  		$.ajax({
  	  		datetype:"json",
-=======
- 	$("#btn_search").click(function(){
- 		$.ajax({
- 	  		datetype:"html",
->>>>>>> e7b49836166a8a2b3b0fd3b018afdae047c15f80
  	  		type:"post",
  	  		data:{"consult_product":valor},
  	  		url:"controllers/mostrar_productos.php",
  	  		success:function(data){
-<<<<<<< HEAD
  	  		 var data = $.parseJSON(data);
  	  		  $.each(data,function(key,value){
  	  		   var tbo = '<tr>\
@@ -549,13 +418,3 @@ session_start();
 </script>
 <script type="text/javascript" src="js/login.js"></script>
 <script type="text/javascript" src="js/btn_out_session.js"></script>
-
-=======
- 	  			var v = '<tr> '+data+'</tr>';
- 	  		    $("#tbody_").append(data);
- 	  		}
- 	  	});
- 	});
- });
-</script>
->>>>>>> e7b49836166a8a2b3b0fd3b018afdae047c15f80
