@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
  include_once('conectar.php');
  include_once('../models/Productos.php');
  $conectar = new Conectar();
@@ -76,4 +77,20 @@ if(isset($_POST['referen'])){
  }
  
  //print_r($data);
+=======
+ include_once('consultas.php');
+
+
+ if(isset($_POST['id'],$_POST['marc'],$_POST['refer'],$_POST['prec'],$_POST['cant'],$_POST['desc_produc'])){
+ 	$consult = new Consultas();
+ 	if($_POST['marca'] == "si"){
+ 		
+ 	}
+ }
+
+ 
+
+
+
+>>>>>>> e7b49836166a8a2b3b0fd3b018afdae047c15f80
 ?>

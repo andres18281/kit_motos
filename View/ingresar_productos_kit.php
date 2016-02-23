@@ -1,9 +1,12 @@
+<<<<<<< HEAD
 <?php 
 session_start();
 if(isset($_SESSION['perfil']) and $_SESSION['perfil'] != "qwqwsa123423@!"){
   header("location: ../index.php");
 }
 ?>
+=======
+>>>>>>> e7b49836166a8a2b3b0fd3b018afdae047c15f80
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +14,7 @@ if(isset($_SESSION['perfil']) and $_SESSION['perfil'] != "qwqwsa123423@!"){
  <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css">
 <!-- <link rel="stylesheet" type="text/css" href="../css/fileinput.css">-->
  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<<<<<<< HEAD
 
  <style type="text/css">
  	.invoice-title h2, .invoice-title h3 {
@@ -43,6 +47,24 @@ if(isset($_SESSION['perfil']) and $_SESSION['perfil'] != "qwqwsa123423@!"){
 
  </style>
 	
+=======
+	<?php
+   
+  	 include_once('../controllers/conectar.php');
+  	 $sql = 'SELECT Marca_id,Marca_nomb
+ 			 FROM Produc_Marca';
+ 	 $sql2 = 'SELECT Referen_id,Referenc_nomb	
+ 	 		 FROM Produc_Referencia';
+ 	 $sql3 = 'SELECT Tip_pro_id,Tip_nomb
+ 	 		  FROM Produc_Tipo_producto';
+ 	 $consult = new Conectar();			
+ 	 $respon_marca = $consult->consultas($sql);
+ 	 $respon_referenc = $consult->consultas($sql2);
+ 	 
+ 	 $respon_produc = $consult->consultas($sql3);
+ 	 ?>
+
+>>>>>>> e7b49836166a8a2b3b0fd3b018afdae047c15f80
 	<title></title>
  
 
@@ -126,6 +148,10 @@ if(isset($_SESSION['perfil']) and $_SESSION['perfil'] != "qwqwsa123423@!"){
     </div>
     <div class="col-md-8">
 	 	<div id="add_product" style="display:none;">
+<<<<<<< HEAD
+=======
+		<form method="POST" action="">
+>>>>>>> e7b49836166a8a2b3b0fd3b018afdae047c15f80
 		 <div class="container-fluid">
 		  <div class="panel panel-danger">
 		   <div class="panel-heading">
@@ -134,6 +160,25 @@ if(isset($_SESSION['perfil']) and $_SESSION['perfil'] != "qwqwsa123423@!"){
 		   <div class="panel-body">
 			<div class="row form-group">
 			 <div class="col-md-4">
+<<<<<<< HEAD
+=======
+			  <label> Linea de Producto</label>
+			 </div>	
+			 <div class="col-md-8">
+			  <select name="stl_linea" id="slt_linea" class="form-control">
+				<?php
+				  foreach($respon_produc as $linea){
+				  	echo '<option value='.$linea[0].'>'.$linea[1].'</option>';
+				  }
+				?>
+			  </select>
+			 
+			 </div>	
+			</div>
+
+			<div class="row form-group">
+			 <div class="col-md-4">
+>>>>>>> e7b49836166a8a2b3b0fd3b018afdae047c15f80
 			  <label> Codigo de producto</label>
 			 </div>	
 			 <div class="col-md-8">
@@ -141,14 +186,26 @@ if(isset($_SESSION['perfil']) and $_SESSION['perfil'] != "qwqwsa123423@!"){
 			 </div>	
 			</div>
 
+<<<<<<< HEAD
 			<div class="row form-group"> 
+=======
+			<div class="row form-group">
+>>>>>>> e7b49836166a8a2b3b0fd3b018afdae047c15f80
 			 <div class="col-md-4">
 
 			  <label> Seleccionar Marca</label>
 			 </div>	
 			 <div class="col-md-8">
 			  <select class="form-control" name="slt_marca" id="slt_marca">
+<<<<<<< HEAD
 			   
+=======
+			   <?php	
+				foreach($respon_marca as $value){
+ 				  echo '<option value="'.$value[0].'">'.$value[1].'</option>';
+ 				}
+ 			    ?>
+>>>>>>> e7b49836166a8a2b3b0fd3b018afdae047c15f80
 			  </select>
 			 </div>	
 			</div>
@@ -159,7 +216,15 @@ if(isset($_SESSION['perfil']) and $_SESSION['perfil'] != "qwqwsa123423@!"){
 			 </div>	
 			 <div class="col-md-8">
 			  <select class="form-control" name="std_referen" id="std_referen">
+<<<<<<< HEAD
 				
+=======
+				<?php
+				 foreach($respon_referenc as $refe){
+				 	echo '<option value="'.$refe[0].'">'.$refe[1].'</option>';
+				 }
+				?>
+>>>>>>> e7b49836166a8a2b3b0fd3b018afdae047c15f80
 			  </select>
 			 </div>	
 			</div>
@@ -194,19 +259,31 @@ if(isset($_SESSION['perfil']) and $_SESSION['perfil'] != "qwqwsa123423@!"){
 				<button class="btn btn-block btn-default">Limpiar Campos</button>
 		  	  </div>
 		  	  <div class="col-md-6">
+<<<<<<< HEAD
 				<button class="btn btn-block btn-success" id="btn_save_prod" name="enviar"><span class="glyphicon glyphicon-floppy-disk"></span>  Guardar</button>
+=======
+				<button class="btn btn-block btn-success" id="btn_save" name="enviar" type="submit"><span class="glyphicon glyphicon-floppy-disk"></span>  Guardar</button>
+>>>>>>> e7b49836166a8a2b3b0fd3b018afdae047c15f80
 		  	  </div>
 	 	 	</div>
 		   </div>
 		  </div>
 		 </div>
+<<<<<<< HEAD
 	 	
+=======
+	 	</form>
+>>>>>>> e7b49836166a8a2b3b0fd3b018afdae047c15f80
 	 	</div><!--#agregar_producto-->
 
 	 	<div id="agregar_canti" class="container-fluid" style="display:none;">
 		 <div class="panel panel-success">
 		  <div class="panel-heading">
+<<<<<<< HEAD
 			Abastecer cantidades de productos 
+=======
+			Abastecer cantidades de productos
+>>>>>>> e7b49836166a8a2b3b0fd3b018afdae047c15f80
 		  </div>
 		  <div class="panel-body">
 			<div class="form-group">
@@ -214,19 +291,30 @@ if(isset($_SESSION['perfil']) and $_SESSION['perfil'] != "qwqwsa123423@!"){
 			   <div class="col-md-4">
 				 <label>Codigo de producto</label>
 			   </div>
+<<<<<<< HEAD
 			   <div class="col-md-6" style="overflow-x:scroll;height:200px">
 				 <input type="text" class="form-control" id="inp_codigo">
 				 <ul class="nav" id="sugerenc_prod"></ul>
 			   </div>
 			 </div>
 
+=======
+			   <div class="col-md-6">
+				 <input type="text" class="form-control" id="inp_codigo">
+			   </div>
+			 </div>
+>>>>>>> e7b49836166a8a2b3b0fd3b018afdae047c15f80
 			 
 			 <div class="row" style="margin-top:50px;"> 
 			  <div class="col-md-6">
 				<button class="btn btn-default btn-block">Limpiar campos</button>
 			  </div>
 			  <div class="col-md-6">
+<<<<<<< HEAD
 				<button class="btn btn-success btn-block" id="btn_buscar_prod" data-toggle="modal" data-target="#myModal_modifi_cant"><span class="glyphicon glyphicon-search"></span></button>
+=======
+				<button class="btn btn-success btn-block" id="btn_buscar_prod"><span class="glyphicon glyphicon-search"></span></button>
+>>>>>>> e7b49836166a8a2b3b0fd3b018afdae047c15f80
 			  </div>
 			 </div><!--/.row-->
 		    </div><!--form-group-->
@@ -251,8 +339,19 @@ if(isset($_SESSION['perfil']) and $_SESSION['perfil'] != "qwqwsa123423@!"){
                    <th></th>        
              	  </tr>
         		</thead> 
+<<<<<<< HEAD
         		<tbody id="list_fact">
             	 
+=======
+        		<tbody>
+            	  <tr>
+                  	<td>Tiger Nixon</td>
+                  	<td>System Architect</td>
+                  	<td>Edinburgh</td>
+                  	<td>61</td>
+                  	<td>2011/04/25</td>
+            	  </tr>
+>>>>>>> e7b49836166a8a2b3b0fd3b018afdae047c15f80
         		</tbody>
     	   	  </table>
 		  	 </div><!--panel-body-->
@@ -395,6 +494,7 @@ if(isset($_SESSION['perfil']) and $_SESSION['perfil'] != "qwqwsa123423@!"){
     	}
 
     });
+<<<<<<< HEAD
     $("#menu3").click(function(){
     	$.ajax({
     	  dataType:"json",
@@ -448,6 +548,11 @@ if(isset($_SESSION['perfil']) and $_SESSION['perfil'] != "qwqwsa123423@!"){
     	   });
     	  }
     	});
+=======
+    
+    $("#menu1").click(function(){
+    	$( "#add_product" ).slideToggle();
+>>>>>>> e7b49836166a8a2b3b0fd3b018afdae047c15f80
 
     	if($("#agregar_canti").is(":visible")){
 			$('#agregar_canti').hide(); 
@@ -508,8 +613,13 @@ if(isset($_SESSION['perfil']) and $_SESSION['perfil'] != "qwqwsa123423@!"){
 			$('#add_product').hide(); 
   		}
     });
+<<<<<<< HEAD
   
     $("#btn_save_prod").click(function(){
+=======
+
+    $("#btn_save").click(function(){
+>>>>>>> e7b49836166a8a2b3b0fd3b018afdae047c15f80
     	var id_prod = $("#inp_prod").val();
     	var marc = $("#slt_marca").val();
     	var refer = $("#std_referen").val();
@@ -518,6 +628,7 @@ if(isset($_SESSION['perfil']) and $_SESSION['perfil'] != "qwqwsa123423@!"){
     	var desc_produc = $("#inp_desc_prod").val();
     	if(id_prod.length > 0 && marc.length > 0 && refer.length > 0 && prec.length > 0 && cant.length > 0 && desc_produc.length > 0){
     		$.ajax({
+<<<<<<< HEAD
     			dataType:"json",
     			type:'post',
     			data:{"inp_prod":id_prod,"slt_marca":marc,"std_referen":refer,"inp_prec":prec,"inp_cant":cant,"inp_desc_prod":desc_produc},
@@ -549,16 +660,34 @@ if(isset($_SESSION['perfil']) and $_SESSION['perfil'] != "qwqwsa123423@!"){
     	$("#inp_cant").val("");
     });
 
+=======
+    			datetype:'html',
+    			type:'post',
+    			data:{"id":id_prod,'marc':marc,'refer':refer,'prec':prec,'cant':cant,'desc_produc':desc_produc},
+    			url:'../controllers/carga_datos.php',
+    			success:function(data){
+
+    			}
+    		});
+    	}
+    });
+
+>>>>>>> e7b49836166a8a2b3b0fd3b018afdae047c15f80
     $("#btn_buscar_prod").click(function(){
     	var valor = $("#inp_codigo").val();
     	if(valor.length > 0){
     		$.ajax({
+<<<<<<< HEAD
     			datetype:"json",
+=======
+    			datetype:"html",
+>>>>>>> e7b49836166a8a2b3b0fd3b018afdae047c15f80
     			type:"post",
     			data:{"product":valor},
     			url:"../controllers/buscar_product.php",
     			success:function(data){
     				var data = $.parseJSON(data);
+<<<<<<< HEAD
     				if(typeof(data.exito) != "undefined"){
     					$("#inp_nomb").val(data.product); 
     					$("#inp_cod").val(data.id); 
@@ -567,6 +696,16 @@ if(isset($_SESSION['perfil']) and $_SESSION['perfil'] != "qwqwsa123423@!"){
     					$('<option value="0">'+data.referencia+'</option>').appendTo($("#inp_refe"));
     					$('<option value="0">'+data.marca+'</option>').appendTo($("#inp_marc"));
     					$("#myModal_modifi_cant").modal("show");					
+=======
+    			
+    				if(data.exito == "exito"){
+    					$("#id_pr").text(data.id);
+    					$("#refe").text(data.referencia);
+    					$("#cant").text(data.cantidad);
+    					$("#marc").text(data.marca);
+    					$("#nomb").text(data.product);
+    					$("#myModal").modal("show");					
+>>>>>>> e7b49836166a8a2b3b0fd3b018afdae047c15f80
     				}else{
     					alert("no hay registro");
     				}
@@ -575,6 +714,7 @@ if(isset($_SESSION['perfil']) and $_SESSION['perfil'] != "qwqwsa123423@!"){
     	}
     });
 
+<<<<<<< HEAD
     // boton actualizar cambios que halla hecho
     $("#btn_actualiza_prod").click(function(){
       var nombre = $("#inp_nomb").val(); 
@@ -602,6 +742,8 @@ if(isset($_SESSION['perfil']) and $_SESSION['perfil'] != "qwqwsa123423@!"){
       	}
       })
     });
+=======
+>>>>>>> e7b49836166a8a2b3b0fd3b018afdae047c15f80
 
     $("#btn_add_cant").click(function(){
     	var cant = $("#imp_num_cant").val();
@@ -613,7 +755,10 @@ if(isset($_SESSION['perfil']) and $_SESSION['perfil'] != "qwqwsa123423@!"){
     			data:{"cantidad":cant,"codigo":codi},
     			url:"../controllers/buscar_product.php",
     			success:function(data){
+<<<<<<< HEAD
     				$("#myModal_modifi_cant").modal('show');
+=======
+>>>>>>> e7b49836166a8a2b3b0fd3b018afdae047c15f80
     				var data = $.parseJSON(data);
     				if(data.exito == "exito"){
     					alert("Datos actualizados con exito");
@@ -655,6 +800,7 @@ if(isset($_SESSION['perfil']) and $_SESSION['perfil'] != "qwqwsa123423@!"){
     	}
     });
 
+<<<<<<< HEAD
     $("#inp_codigo").keypress(function(){
       $("#sugerenc_prod").html("");	
       var valor = $(this).val();   
@@ -760,6 +906,8 @@ if(isset($_SESSION['perfil']) and $_SESSION['perfil'] != "qwqwsa123423@!"){
 
       
 
+=======
+>>>>>>> e7b49836166a8a2b3b0fd3b018afdae047c15f80
 
     $("#btn_clean").click(function(){
     	$("#inp_cedu").val("");
@@ -771,6 +919,7 @@ if(isset($_SESSION['perfil']) and $_SESSION['perfil'] != "qwqwsa123423@!"){
     	$("#mail").text("");  
     });
 });
+<<<<<<< HEAD
 $(document).on('click',".ver_fact",function(){
   var sum = 0;
   var id = $(this).attr('id');
@@ -994,3 +1143,51 @@ $(document).on('click',".ver_fact",function(){
   </div>
 </div>
 <script type="text/javascript" src="js/btn_out_session.js"></script>
+=======
+
+</script>
+
+
+
+
+<?php
+   
+  	
+
+  
+
+
+
+ if(isset($_POST['enviar'])){
+ 	include_once('../controllers/conectar.php');
+ 	if(isset($_POST['inp_prod'],$_POST['slt_marca'],$_POST['std_referen'],$_POST['inp_prec'],$_POST['inp_cant'],$_POST['inp_desc_prod'])){
+ 		$conectar = new Conectar();
+ 		$id = $_POST['inp_prod'];
+ 		$marca = $_POST['slt_marca'];
+ 		$refe = $_POST['std_referen'];
+ 		$preci = $_POST['inp_prec'];
+ 		$canti = $_POST['inp_cant'];
+ 		$descrip = $_POST['inp_desc_prod'];
+ 		$linea = $_POST['stl_linea'];
+		$last_id_descrip =$conectar->Insertar_descripcion($descrip);
+		$last_id_canti = $conectar->Insertar_cantidad($canti);
+		$conectar->Insertar_precio($id,$preci);
+		$exito = $conectar->Insertar_producto($id,$last_id_descrip['last_cod_id'],$marca,$refe,$linea);//
+  		if(isset($exito['exito'])){
+  		  ?>
+				<script> alert("producto almacenado con exito");</script>
+  		  <?
+  		}else{
+  			?>
+				<script> alert("producto no almacenado con exito");</script>
+  		  	<?
+  		  	print_r($exito);
+  		}
+  	}
+ }
+
+
+
+
+?>
+>>>>>>> e7b49836166a8a2b3b0fd3b018afdae047c15f80
