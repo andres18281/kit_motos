@@ -30,13 +30,12 @@
            return $this->mysqli = new mysqli($this->host, $this->user, $this->pass, $this->db);   
         }
 
-
+                                  
         public function Insertar_producto($cod,$descrip,$marca,$refe,$linea,$precio){
           $array = array("mensaje"=>"Hay un problema interno que debe solucionarse",
                            "error"=>"hubo un error al inicio");
             if($this->connect()){
                $inserta= 'INSERT INTO Producto_kit VALUES ("'.$cod.'",'.$descrip.','.$marca.','.$refe.',null,'.$precio.')';
-               echo $inserta.'<br>';
               // echo $inserta.'<br>';
                 $insercion = $this->mysqli->query($inserta);
                 if($insercion){
@@ -57,7 +56,7 @@
            $array = array("mensaje"=>"Hay un problema interno que debe solucionarse",
                            "error"=>"hubo un error al inicio");
             if($this->connect()){
-               $inserta='INSERT INTO Produc_cantidad_producto VALUES (null,'.$cod.','.$numb.')';
+               $inserta='INSERT INTO Produc_cantidad_producto VALUES (null,'.$cod.','.$nomb.')';
                 $insercion = $this->mysqli->query($inserta);
                 if($insercion){
                     $array = array("exito"=>"Insercion con exito",
@@ -160,7 +159,6 @@
              if(isset($tablas)){
                 //  $inserta = 'INSERT INTO '.$tablas.' ('.implode("','",array_keys($parametros)).'") VALUES ("'.implode("','",$parametros).'")"';
                $inserta='INSERT INTO `'.$tablas.'` (`'.implode('`, `',array_keys($params)).'`) VALUES ("' . implode('", "', $params) . '")';
-               echo $inserta;
                 $insercion = $this->mysqli->query($inserta);
                 if($insercion){
                     $array = array("exito"=>"Insercion con exito",

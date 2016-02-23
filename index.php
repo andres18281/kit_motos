@@ -353,7 +353,7 @@ session_start();
                     <td>'+value.id+'</td>\
                     <td>'+value.descrip+'</td>\
                     <td>'+value.precio+'</td>\
-                     <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button id='+value.id+' class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>\
+                     <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button id='+value.id+' class="btn btn-danger btn-xs btn_del" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>\
                   </td>'; 
          $("#body_compra").append(tr);
        });
@@ -361,7 +361,7 @@ session_start();
        $("#lblNumberItems").text(cant);
      });
   },0);
-
+ });
    $(document).on("click",".btn_buy",function(){
    	// $("#listado_produc").html("");
    	 var id = $(this).attr('id');
@@ -371,6 +371,7 @@ session_start();
    	   url:"controllers/enlista_producto.php",
    	   data:{"id_producto":id}
    	 }).done(function(data){
+      $("#body_compra").html("");
        var total = 0;
        var cant = data.length;
        $.each(data,function(key,value){
@@ -379,7 +380,7 @@ session_start();
                     <td>'+value.id+'</td>\
                     <td>'+value.descrip+'</td>\
                     <td>'+value.precio+'</td>\
-                     <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button id='+value.id+' class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>\
+                     <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button id='+value.id+' class="btn btn-danger btn-xs btn_del" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>\
                   </td>'; 
          $("#body_compra").append(tr);
        });
@@ -387,9 +388,37 @@ session_start();
        $("#lblNumberItems").text(cant);
    	 });
    });
-    
- });
+
+   $(document).on('click',".btn_del",function(){
+     var id = $(this).attr('id');
+     alert(id);
+     $.ajax({ 
+      dataType:"json",
+      type:"post",
+      data:{"id_produc_delete":id},
+      url:"controllers/enlista_producto.php",
+      success:function(data){
+        console.log(data);
+        $("#body_compra").html("");
+        var total = 0;
+        var cant = data.length;
+          $.each(data,function(key,value){
+            total = total + parseInt(value.precio);
+            var tr = '<tr>\
+                        <td>'+value.id+'</td>\
+                        <td>'+value.descrip+'</td>\
+                        <td>'+value.precio+'</td>\
+                      <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button id='+value.id+' class="btn btn-danger btn-xs btn_del" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>\
+                    </td>'; 
+            $("#body_compra").append(tr);
+          });
+      } 
+     });
+   });   
+
  
 
 </script>
 <script type="text/javascript" src="js/login.js"></script>
+<script type="text/javascript" src="js/btn_out_session.js"></script>
+

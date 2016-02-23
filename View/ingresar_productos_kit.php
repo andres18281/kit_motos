@@ -1,3 +1,9 @@
+<?php 
+session_start();
+if(isset($_SESSION['perfil']) and $_SESSION['perfil'] != "qwqwsa123423@!"){
+  header("location: ../index.php");
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,22 +11,38 @@
  <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css">
 <!-- <link rel="stylesheet" type="text/css" href="../css/fileinput.css">-->
  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-	<?php
-   
-  	 include_once('../controllers/conectar.php');
-  	 $sql = 'SELECT Marca_id,Marca_nomb
- 			 FROM Produc_Marca';
- 	 $sql2 = 'SELECT Referen_id,Referenc_nomb	
- 	 		 FROM Produc_Referencia';
- 	 $sql3 = 'SELECT Tip_pro_id,Tip_nomb
- 	 		  FROM Produc_Tipo_producto';
- 	 $consult = new Conectar();			
- 	 $respon_marca = $consult->consultas($sql);
- 	 $respon_referenc = $consult->consultas($sql2);
- 	 
- 	 $respon_produc = $consult->consultas($sql3);
- 	 ?>
 
+ <style type="text/css">
+ 	.invoice-title h2, .invoice-title h3 {
+    	display: inline-block;
+	}
+
+	.table > tbody > tr > .no-line {
+    	border-top: none;
+	}
+
+	.table > thead > tr > .no-line {
+    	border-bottom: none;
+	}
+
+	.table > tbody > tr > .thick-line {
+    	border-top: 2px solid;
+	}
+
+	.suggest-element{
+ 	  margin-left:5px;
+	  margin-top:5px;
+	  width:350px;
+	  cursor:pointer;
+    }
+	#suggestions {
+	  width:350px;
+	  height:150px;
+	  overflow: auto;
+	}
+
+ </style>
+	
 	<title></title>
  
 
@@ -104,29 +126,12 @@
     </div>
     <div class="col-md-8">
 	 	<div id="add_product" style="display:none;">
-		<form method="POST" action="">
 		 <div class="container-fluid">
 		  <div class="panel panel-danger">
 		   <div class="panel-heading">
 			  AGREGAR PRODUCTO
 		   </div>
 		   <div class="panel-body">
-			<div class="row form-group">
-			 <div class="col-md-4">
-			  <label> Linea de Producto</label>
-			 </div>	
-			 <div class="col-md-8">
-			  <select name="stl_linea" id="slt_linea" class="form-control">
-				<?php
-				  foreach($respon_produc as $linea){
-				  	echo '<option value='.$linea[0].'>'.$linea[1].'</option>';
-				  }
-				?>
-			  </select>
-			 
-			 </div>	
-			</div>
-
 			<div class="row form-group">
 			 <div class="col-md-4">
 			  <label> Codigo de producto</label>
@@ -136,18 +141,14 @@
 			 </div>	
 			</div>
 
-			<div class="row form-group">
+			<div class="row form-group"> 
 			 <div class="col-md-4">
 
 			  <label> Seleccionar Marca</label>
 			 </div>	
 			 <div class="col-md-8">
 			  <select class="form-control" name="slt_marca" id="slt_marca">
-			   <?php	
-				foreach($respon_marca as $value){
- 				  echo '<option value="'.$value[0].'">'.$value[1].'</option>';
- 				}
- 			    ?>
+			   
 			  </select>
 			 </div>	
 			</div>
@@ -158,11 +159,7 @@
 			 </div>	
 			 <div class="col-md-8">
 			  <select class="form-control" name="std_referen" id="std_referen">
-				<?php
-				 foreach($respon_referenc as $refe){
-				 	echo '<option value="'.$refe[0].'">'.$refe[1].'</option>';
-				 }
-				?>
+				
 			  </select>
 			 </div>	
 			</div>
@@ -197,19 +194,19 @@
 				<button class="btn btn-block btn-default">Limpiar Campos</button>
 		  	  </div>
 		  	  <div class="col-md-6">
-				<button class="btn btn-block btn-success" id="btn_save" name="enviar" type="submit"><span class="glyphicon glyphicon-floppy-disk"></span>  Guardar</button>
+				<button class="btn btn-block btn-success" id="btn_save_prod" name="enviar"><span class="glyphicon glyphicon-floppy-disk"></span>  Guardar</button>
 		  	  </div>
 	 	 	</div>
 		   </div>
 		  </div>
 		 </div>
-	 	</form>
+	 	
 	 	</div><!--#agregar_producto-->
 
 	 	<div id="agregar_canti" class="container-fluid" style="display:none;">
 		 <div class="panel panel-success">
 		  <div class="panel-heading">
-			Abastecer cantidades de productos
+			Abastecer cantidades de productos 
 		  </div>
 		  <div class="panel-body">
 			<div class="form-group">
@@ -217,17 +214,19 @@
 			   <div class="col-md-4">
 				 <label>Codigo de producto</label>
 			   </div>
-			   <div class="col-md-6">
+			   <div class="col-md-6" style="overflow-x:scroll;height:200px">
 				 <input type="text" class="form-control" id="inp_codigo">
+				 <ul class="nav" id="sugerenc_prod"></ul>
 			   </div>
 			 </div>
+
 			 
 			 <div class="row" style="margin-top:50px;"> 
 			  <div class="col-md-6">
 				<button class="btn btn-default btn-block">Limpiar campos</button>
 			  </div>
 			  <div class="col-md-6">
-				<button class="btn btn-success btn-block" id="btn_buscar_prod"><span class="glyphicon glyphicon-search"></span></button>
+				<button class="btn btn-success btn-block" id="btn_buscar_prod" data-toggle="modal" data-target="#myModal_modifi_cant"><span class="glyphicon glyphicon-search"></span></button>
 			  </div>
 			 </div><!--/.row-->
 		    </div><!--form-group-->
@@ -403,15 +402,17 @@
     	  url:"../controllers/Configuracion_Admin.php",
     	  data:{"fact_sin_cancelar":"all"},
     	  success:function(data){
+    	  	 $("#list_fact").html("");
     	  	  $.each(data,function(key,value){
-    	  	  	console.log(value);
+    	  	   console.log(value.Fact_fecha);	
     	  	   	var t = '<tr>\
     	  					 <td>'+value.Id_factura+'</td>\
-    	  					 <td>'+value.id_client+'</td>\
     	  					 <td>'+value.Fact_fecha+'</td>\
+    	  					 <td>'+value.id_client+'</td>\
     	  			 	 	 <td>'+value.Total+'</td>\
+    	  			 	 	 <td><a href="#" class="ver_fact btn btn-danger btn-xs" data-toggle="modal" data-target="#myModal_fact" id='+value.Id_factura+'><span class="glyphicon glyphicon-zoom-in"></span></a></td>\
     	  			     </td>';
-    	  		$(t).appendTo($("#body_compra"));
+    	  		$(t).appendTo($("#list_fact"));
     	  	  });
     	  }
     	});
@@ -419,7 +420,34 @@
 
     	
     $("#menu1").click(function(){
-    	$( "#add_product" ).slideToggle();
+    	$("#add_product").slideToggle();
+    	$.ajax({
+    	  dataType:"json",
+    	  type:"post",
+    	  url:"../controllers/carga_datos.php",
+    	  data:{"marca":'all'},
+    	  success:function(data){
+    	   $("#slt_marca").html("");
+    	   $.each(data.marca,function(key,val){
+    	   	 var ma = '<option value='+val.id+'>'+val.marca+'</option>';
+    	   	 $(ma).appendTo($("#slt_marca"));
+    	   });
+    	  }
+    	});
+
+    	$.ajax({
+    	  dataType:"json",
+    	  type:"post",
+    	  url:"../controllers/carga_datos.php",
+    	  data:{"referen":"all"},
+    	  success:function(data){
+    	   $("#std_referen").html("");
+    	   $.each(data.referen,function(key,val){
+    	   	 var re = '<option value='+val.id+'>'+val.marca+'</option>';
+    	   	 $(re).appendTo($("#std_referen"));
+    	   });
+    	  }
+    	});
 
     	if($("#agregar_canti").is(":visible")){
 			$('#agregar_canti').hide(); 
@@ -480,8 +508,8 @@
 			$('#add_product').hide(); 
   		}
     });
-
-    $("#btn_save").click(function(){
+  
+    $("#btn_save_prod").click(function(){
     	var id_prod = $("#inp_prod").val();
     	var marc = $("#slt_marca").val();
     	var refer = $("#std_referen").val();
@@ -490,35 +518,55 @@
     	var desc_produc = $("#inp_desc_prod").val();
     	if(id_prod.length > 0 && marc.length > 0 && refer.length > 0 && prec.length > 0 && cant.length > 0 && desc_produc.length > 0){
     		$.ajax({
-    			datetype:'html',
+    			dataType:"json",
     			type:'post',
-    			data:{"id":id_prod,'marc':marc,'refer':refer,'prec':prec,'cant':cant,'desc_produc':desc_produc},
-    			url:'../controllers/carga_datos.php',
+    			data:{"inp_prod":id_prod,"slt_marca":marc,"std_referen":refer,"inp_prec":prec,"inp_cant":cant,"inp_desc_prod":desc_produc},
+    			url:'../controllers/guardar_producto.php',
     			success:function(data){
-
+    			  console.log(data);
+    			  if(typeof(data.exito) != "undefined"){
+    			  	alert("producto agregado con exito");
+    			  	$("#inp_prod").val("");
+    				$("#slt_marca").val("");
+    				$("#std_referen").val("");
+    				$("#inp_prec").val("");
+    				$("#inp_cant").val("");
+    			  }else{
+    			  	alert("no se ha podido añadir el producto");
+    			  }
     			}
     		});
+    	}else{
+    		alert("uno de los campos esta mal escrito o no ha diligenciado correctamente");
     	}
+    });
+
+    $("#btn_clean").click(function(){
+    	$("#inp_prod").val("");
+    	$("#slt_marca").val("");
+    	$("#std_referen").val("");
+    	$("#inp_prec").val("");
+    	$("#inp_cant").val("");
     });
 
     $("#btn_buscar_prod").click(function(){
     	var valor = $("#inp_codigo").val();
     	if(valor.length > 0){
     		$.ajax({
-    			datetype:"html",
+    			datetype:"json",
     			type:"post",
     			data:{"product":valor},
     			url:"../controllers/buscar_product.php",
     			success:function(data){
     				var data = $.parseJSON(data);
-    			
-    				if(data.exito == "exito"){
-    					$("#id_pr").text(data.id);
-    					$("#refe").text(data.referencia);
-    					$("#cant").text(data.cantidad);
-    					$("#marc").text(data.marca);
-    					$("#nomb").text(data.product);
-    					$("#myModal").modal("show");					
+    				if(typeof(data.exito) != "undefined"){
+    					$("#inp_nomb").val(data.product); 
+    					$("#inp_cod").val(data.id); 
+    					$("#inp_cost").val(data.precio); 
+    					$("#inp_cant").val(data.cantidad); 
+    					$('<option value="0">'+data.referencia+'</option>').appendTo($("#inp_refe"));
+    					$('<option value="0">'+data.marca+'</option>').appendTo($("#inp_marc"));
+    					$("#myModal_modifi_cant").modal("show");					
     				}else{
     					alert("no hay registro");
     				}
@@ -527,6 +575,33 @@
     	}
     });
 
+    // boton actualizar cambios que halla hecho
+    $("#btn_actualiza_prod").click(function(){
+      var nombre = $("#inp_nomb").val(); 
+      var codigo = $("#inp_cod").val(); 
+      var cost = $("#inp_cost").val(); 
+      var cant = $("#inp_cant_").val(); 
+      var refe = $("#inp_refe").val();
+      var marc = $("#inp_marc").val();
+      var data = new FormData();
+      data.append("nombre",nombre);
+      data.append("codigo",codigo);
+      data.append("cost",cost);
+      data.append("cant",cant);
+      data.append("refe",refe);
+      data.append("marc",marc);
+      $.ajax({
+      	dataType:"json",
+      	type:"post",
+      	contentType: false,
+        processData: false,
+      	url:"../controllers/guardar_producto.php",
+      	data:data,
+      	success:function(data){
+
+      	}
+      })
+    });
 
     $("#btn_add_cant").click(function(){
     	var cant = $("#imp_num_cant").val();
@@ -538,6 +613,7 @@
     			data:{"cantidad":cant,"codigo":codi},
     			url:"../controllers/buscar_product.php",
     			success:function(data){
+    				$("#myModal_modifi_cant").modal('show');
     				var data = $.parseJSON(data);
     				if(data.exito == "exito"){
     					alert("Datos actualizados con exito");
@@ -579,6 +655,111 @@
     	}
     });
 
+    $("#inp_codigo").keypress(function(){
+      $("#sugerenc_prod").html("");	
+      var valor = $(this).val();   
+      if(valor.length > 0){
+        $.ajax({
+        	dataType:"json",
+            type:"POST",
+            url:'../controllers/mostrar_productos.php',
+            data: {"consult_product_":valor},
+            success: function(data) {
+              if( Object.prototype.toString.call( data ) === '[object Array]' ) { 
+                 $.each(data,function(key,val){
+			       var t = '<li class=" nav-item list_produc"  id='+val.Produc_id+'> <a class="nav-link" href="#">'+val.Marca_nomb+' + '+val.Referenc_nomb+'</a></li>';
+			       $(t).appendTo($("#sugerenc_prod"));
+                 }); 
+              }else if(typeof data  == 'object'){
+              	var t = '<li class=" nav-item list_produc"  id='+data.Produc_id+'> <a class="nav-link" href="#">'+data.Marca_nomb+' + '+data.Referenc_nomb+'</a></li>';
+			    $(t).appendTo($("#sugerenc_prod"));
+              }    
+            }            
+        });
+	  }  
+	});
+
+    $("#inp_codigo").change(function(){
+      var valor = $(this).val(); 
+      $("#sugerenc_prod").html("");	
+      $.ajax({
+        	dataType:"json",
+            type:"POST",
+            url:'../controllers/mostrar_productos.php',
+            data: {"consult_product_":valor},
+            success: function(data) {
+              if( Object.prototype.toString.call( data ) === '[object Array]' ) {
+    			$.each(data,function(key,val){
+			     var t = '<li class=" nav-item list_produc"  id='+val.Produc_id+'> <a class="nav-link" href="#">'+val.Marca_nomb+' + '+val.Referenc_nomb+'</a></li>';
+			     $(t).appendTo($("#sugerenc_prod"));
+               });  
+			  }else if(typeof data  == 'object'){
+			  	var t = '<li class=" nav-item list_produc"  id='+data.Produc_id+'> <a class="nav-link" href="#">'+data.Marca_nomb+' + '+data.Referenc_nomb+'</a></li>';
+			     $(t).appendTo($("#sugerenc_prod"));
+			  }
+                  
+            }            
+       });
+    });
+
+    $("#btn_actualizar").click(function(){
+    	alert("actualizando...");
+    	var nomb = $("#inp_nomb").val(); 
+    	var cod = $("#inp_cod").val(); 
+    	var cost = $("#inp_cost").val(); 
+    	var cant = $("#inp_cant_").val(); 
+    	var refe = $("#inp_refe").val();
+    	var marc = $("#inp_marc").val();
+    	var form = new FormData();
+    	form.append('nombre',nomb);
+    	form.append('codigo',cod);
+    	form.append('cost',cost);
+    	form.append('cant',cant);
+    	form.append('refe',refe);
+    	form.append('marc',marc);
+    	$.ajax({
+    	  datatype:"json",
+    	  url:"../controllers/guardar_producto.php",
+    	  type:"post",
+    	  data:form,
+    	  contentType: false,
+          processData: false,
+          success:function(data){
+          	console.log(data);
+          }
+    	});
+    });
+
+     // cuando asincrinicamente hace la busqueda por palabra clave, al darle click en un nombre se activa lo siguiente
+     $(document).on('click','.list_produc', function(){
+       var valor = $(this).attr('id');
+    	if(valor.length > 0){
+    		$.ajax({
+    			datetype:"json",
+    			type:"post",
+    			data:{"product":valor},
+    			url:"../controllers/buscar_product.php",
+    			success:function(data){
+    				var data = $.parseJSON(data);
+    				if(typeof(data.exito) != "undefined"){
+    					$("#inp_nomb").val(data.product); 
+    					$("#inp_cod").val(data.id); 
+    					$("#inp_cost").val(data.precio); 
+    					$("#inp_cant_").val(data.cantidad); 
+    					$('<option value="0">'+data.referencia+'</option>').appendTo($("#inp_refe"));
+    					$('<option value="0">'+data.marca+'</option>').appendTo($("#inp_marc"));
+    					$("#myModal_modifi_cant").modal("show");					
+    				}else{
+    					alert("no hay registro");
+    				}
+    			}
+    		});
+    	}
+     });
+
+
+      
+
 
     $("#btn_clean").click(function(){
     	$("#inp_cedu").val("");
@@ -589,12 +770,227 @@
     	$("#dir").text("");
     	$("#mail").text("");  
     });
-
-    
 });
-
+$(document).on('click',".ver_fact",function(){
+  var sum = 0;
+  var id = $(this).attr('id');
+  $.ajax({
+  	dataType:"json",
+  	type:"post",
+  	url:"../controllers/carga_datos.php",
+  	data:{"id_fact":id},
+  	success:function(data){
+  	  $("#data_person").html("");
+  	  $("#tbody_detall").html("");
+  	  $("#contact").html("");
+  	  var fact = data.factura;
+  	  var deta = data.detalles;
+  	  $("#num_fact").text("Orden Numero : "+id);
+  	  	$('<br>Cedula : <b>'+fact.id_cli+'</b>\
+  	       <br>Nombre : <b>'+fact.nomb+'</b>\
+  	       <br>Apellido : <b>'+fact.apelli+'</b>').appendTo($("#data_person"));
+  	  	$("#fech").text(fact.fecha);
+  	  	$('<b>Telefono :</b>'+fact.tel+'<br>\
+  	  	   <b>Direccion :</b>'+fact.dir+'<br>\
+  	  	   <b>Email :</b>'+fact.mail+'<br>').appendTo($("#contact"));
+       $.each(deta,function(key,val){
+      	  var detall =
+      	  	'<tr>\
+    		  <td>'+val.id+'</td>\
+    		  <td class="text-center">'+val.cant+'</td>\
+    		  <td class="text-right">'+val.cost+'</td>\
+    		  <td class="text-right">'+(val.cost * val.cost)+'</td>\
+    		</tr>';
+    	   sum = sum+(val.cant * val.cost);
+       	   $(detall).appendTo($("#tbody_detall"));
+       });
+       $("#subtotal").text("$"+sum);
+       $("#total_").text("$"+sum); 
+  	}
+  });
+});
 </script>
 
 
+<div id="myModal_fact" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Factura</h4>
+      </div>
+      <div class="modal-body">
+     	<div class="row">
+    	 <div class="col-md-12">
+          <div class="col-xs-12">
+    	    <div class="invoice-title">
+    		  <h2>Factura</h2><h3 class="pull-right" id="num_fact"></h3>
+    		</div>
+    		<hr>
+    		<div class="row">
+    		 <div class="col-xs-6">
+    			<address>
+    		  	 <strong>Cliente: </strong><br>
+    			   <div id="data_person"></div>
+    			   
+    			</address>
+    		 </div>
+    		 <div class="col-xs-6 text-right">
+    			
+    		  </div>
+    		</div>
+    		<div class="row">
+    		  <div class="col-xs-6">
+    			<strong>Contacto</strong><br>
+    			<div id="contact"></div>
+    		  </div>
+    		  <div class="col-xs-6 text-right">
+    			<address>
+    		  	 <strong>Fecha Solicitada:</strong><br>
+    					<div id="fech"></div><br><br>
+    			 </address>
+    		  </div>
+    		</div>
+     	  </div>
+    	 </div>
+    	 <div class="row">
+    	  <div class="col-md-12">
+    		<div class="panel panel-default">
+    		 <div class="panel-heading">
+    		   <h3 class="panel-title"><strong>Detalles</strong></h3>
+    		 </div>
+    		 <div class="panel-body">
+    		  <div class="table-responsive">
+    			<table class="table table-condensed">
+    		 	  <thead>
+                    <tr>
+        		 	  <td><strong>Item</strong></td>
+        			  <td class="text-center"><strong>Cantidad</strong></td>
+        			  <td class="text-center"><strong>Costo</strong></td>
+        			  <td class="text-right"><strong>Total</strong></td>
+                    </tr>
+    			  </thead>
+    			  <tbody id="tbody_detall">
+    				<!-- foreach ($order->lineItems as $line) or some such thing here -->
+    			 	
+    			  </tbody>
+    			  <tfooter>
+    			  	<tr>
+    				  <td class="thick-line"></td>
+    				  <td class="thick-line"></td>
+    				  <td class="thick-line text-center"><strong>Subtotal</strong></td>
+    				  <td class="thick-line text-right" id="subtotal"></td>
+    			  	</tr>
+    			  	<tr>
+    				  <td class="no-line"></td>
+    				  <td class="no-line"></td>
+    				  <td class="no-line text-center"><strong>Iva</strong></td>
+    				  <td class="no-line text-right" id="iva"></td>
+    			    </tr>
+    			    <tr>
+    				  <td class="no-line"></td>
+    				  <td class="no-line"></td>
+    				  <td class="no-line text-center"><strong>Total</strong></td>
+    				  <td class="no-line text-right" id="total_"></td>
+    			    </tr>
+
+    			  </tfooter>
+    			</table>
+    		   </div>
+    		 </div>
+    		</div>
+    	  </div>
+         </div>
+		</div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
+
+<div id="myModal_modifi_cant" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modificar Cantidad</h4>
+      </div>
+      <div class="modal-body">
+       	 <div class="panel panel-info">
+				<div class="panel-heading">
+					<div class="panel-title">
+						<div class="row">
+							<div class="col-xs-6">
+								<h5><span class="glyphicon glyphicon-shopping-cart" id="btn_actualiza_prod"></span> Actualizacion de productos</h5>
+							</div>
+							<div class="col-xs-6">
+								<button type="button" class="btn btn-primary btn-sm btn-block" id="btn_actualizar">
+									<span class="glyphicon glyphicon-share-alt"></span> Actualizar
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-xs-6">
+						  <div class="col-xs-10">
+							<h6 class="product-name"><strong>Nombre</strong></h6><small><input type="text" class="form-control input-xs" id="inp_nomb"></small>
+						  </div>
+						  <div class="col-xs-10">
+							<h6 class="product-name"><strong>COdigo</strong></h6><small><input type="text" class="form-control input-xs" id="inp_cod"></small>
+						  </div>
+
+						</div>
+						<div class="col-xs-6">
+						  <div class="row">
+							<div class="col-xs-4 text-right">
+								<h6><strong>Costo <span class="text-muted"></span></strong></h6>
+							</div>
+							<div class="col-xs-8">
+								<input type="text" class="form-control input-sm" id="inp_cost">
+							</div>
+						  </div>
+						  <div class="row">
+							<div class="col-xs-4 text-right">
+								<h6><strong>Cantidad <span class="text-muted"></span></strong></h6>
+							</div>
+							<div class="col-xs-8">
+								<input type="number" class="form-control input-sm" id="inp_cant_">
+							</div>
+						  </div>
+						  <div class="row">
+							<div class="col-xs-4 text-right">
+								<h6><strong>Referencia <span class="text-muted"></span></strong></h6>
+							</div>
+							<div class="col-xs-8">
+								<select type="text" class="form-control input-sm" id="inp_refe"></select>
+							</div>
+						  </div>
+						  <div class="row">
+							<div class="col-xs-4 text-right">
+								<h6><strong>Marca <span class="text-muted"></span></strong></h6>
+							</div>
+							<div class="col-xs-8">
+								<select type="text" class="form-control input-sm" id="inp_marc"></select>
+							</div>
+						  </div>
+						  
+						</div>
+					</div>	
+				</div>
+				
+			</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<script type="text/javascript" src="js/btn_out_session.js"></script>

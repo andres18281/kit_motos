@@ -16,7 +16,6 @@ session_start();
         }
         $consulta = new Conectar(); 
         $tipo_usuario = $consulta->consulta_usuario($this->user,$this->pass);
-        var_dump($tipo_usuario);
         if(isset($tipo_usuario)){
           if($tipo_usuario[2] == 'cliente'){
              $_SESSION["perfil"] =  "asdqweasd5654184";

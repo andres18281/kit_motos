@@ -9,7 +9,7 @@ $(function(){
       data:{"count":email,"pass":pass},
       success:function(data){
         if(data.data == true){
-         // window.location.reload();
+          window.location.reload();
         }else{
           alert("usuario o contraseña invalida, por favor intente de nuevo");
         }

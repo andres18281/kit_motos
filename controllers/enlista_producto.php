@@ -26,17 +26,16 @@ if(isset($_REQUEST['compras'])){
       echo json_encode($_SESSION['produc_var_session_']);
     }
 }
-/*
+
 if(isset($_REQUEST['id_produc_delete'])){
-  $id = $_POST['id_produc_delete']
-  $key = array_search($id, array_column($_SESSION['produc_var_session_'], 'id'));
-  unset($_SESSION['produc_var_session_'][$key]);
-  if(isset($_SESSION['produc_var_session_'][$key])){
-    $exito['exito'] = "exito";
-  }else{
-    $exito['exito'] = "no_exito";
+  $id = $_POST['id_produc_delete'];
+  foreach($_SESSION['produc_var_session_'] as $key=>$value){
+    if($id == $value['id']){
+      unset($_SESSION['produc_var_session_'][$key]);
+    }
   }
-}*/
+  echo json_encode($_SESSION['produc_var_session_']);
+}
 
 
 

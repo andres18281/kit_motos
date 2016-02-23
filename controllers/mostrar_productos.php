@@ -8,6 +8,16 @@
  	$response = $produc->Buscar_producto($nomb);
  	echo json_encode($response);
  }
+ 
+ if(isset($_POST['consult_product_'])){
+ 	$produc = new Productos();
+ 	$nomb = $_POST['consult_product_'];
+ 	$response = $produc->Buscar_producto_tow($nomb);
+ 	echo json_encode($response);
+ }
+ 
+
+
 
  if(isset($_POST['marcas'])){
  	$marca = new Productos();
